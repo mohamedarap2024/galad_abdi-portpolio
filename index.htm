@@ -9,27 +9,79 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Floating animation for icons */
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
+        :root {
+            --primary-color: #00A6FB;
+            --secondary-color: #0077B6;
+            --bg-dark: #0f172a;
+            --text-light: #e2e8f0;
+        }
 
-            50% {
-                transform: translateY(-10px);
-            }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            transition: background-color 0.3s ease;
+        }
 
-            100% {
-                transform: translateY(0px);
-            }
+        /* Responsive Navbar */
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: none;
+            z-index: 50;
+            cursor: pointer;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: #fff;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 166, 251, 0.4);
+            transition: all 0.3s ease;
+            animation: bounceIn 0.8s;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 166, 251, 0.6);
         }
 
         .float-animation {
             animation: float 3s ease-in-out infinite;
         }
 
-        /* Modal styling - hidden by default */
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -57,7 +109,7 @@
             align-items: center;
             justify-content: center;
         }
-
+        
         .modal-image {
             width: 100%;
             max-height: 80vh;
@@ -89,7 +141,7 @@
         }
 
         .modal-nav-btn:hover {
-            color: #ccc;
+            color: var(--primary-color);
             background: rgba(0, 0, 0, 0.7);
         }
 
@@ -107,40 +159,116 @@
 
         @keyframes fadeIn {
             from {
-                opacity: 0
+                opacity: 0;
             }
-
             to {
-                opacity: 1
+                opacity: 1;
             }
         }
 
         @keyframes zoomIn {
             from {
-                transform: scale(0)
+                transform: scale(0.8) translate(-50%, -50%);
+                opacity: 0;
             }
-
             to {
-                transform: scale(1)
+                transform: scale(1) translate(-50%, -50%);
+                opacity: 1;
             }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Portfolio Filter styling */
+        .filter-btn {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+        }
+
+        .portfolio-item {
+            transition: transform 0.3s ease, opacity 0.5s ease;
+        }
+
+        .portfolio-item.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            position: absolute;
+            width: 100%;
+        }
+
+        /* Contact section specific design */
+        .contact-card {
+            background: linear-gradient(135deg, #111827, #1f2937);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Ensure no horizontal scroll on small screens like Samsung A12 */
+        .no-overflow-x {
+            overflow-x: hidden;
+            width: 100%;
+        }
+        .container-fluid {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .container-fluid {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+        
+        .main-gradient-bg {
+            background-image: linear-gradient(to right, #0f172a, #111827, #0f172a);
         }
     </style>
 </head>
 
-<body class="bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 text-white transition-colors duration-300"
-    id="mainBody">
+<body class="no-overflow-x">
 
-    <nav class="flex items-center justify-between px-4 sm:px-6 py-3 bg-black bg-opacity-60 fixed w-full z-50">
+    <div id="scrollToTop" class="scroll-to-top hidden">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <nav class="flex items-center justify-between px-4 sm:px-6 py-3 bg-black bg-opacity-60 fixed w-full z-50 shadow-lg">
         <div class="flex items-center space-x-2 sm:space-x-4">
             <img src="Images/Gemini_Generated_Image_6gox4m6gox4m6gox (1).png" alt="Galad Logo"
                 class="h-12 sm:h-16 w-auto object-contain" />
         </div>
         <ul class="hidden md:flex space-x-4 sm:space-x-6 font-medium">
-            <li><a href="#home" class="hover:text-cyan-400 transition">Home</a></li>
-            <li><a href="#about" class="hover:text-cyan-400 transition">About</a></li>
-            <li><a href="#skills" class="hover:text-cyan-400 transition">Skills</a></li>
-            <li><a href="#portfolio" class="hover:text-cyan-400 transition">Portfolio</a></li>
-            <li><a href="#contact" class="hover:text-cyan-400 transition">Contact</a></li>
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
         <div class="flex items-center space-x-2 sm:space-x-4">
             <div class="social-icons-desktop hidden md:flex items-center space-x-4">
@@ -161,7 +289,7 @@
     </nav>
 
     <div id="mobileMenu"
-        class="md:hidden fixed top-0 left-0 w-full h-screen bg-black bg-opacity-90 flex flex-col items-center justify-center space-y-4 text-lg font-semibold hidden z-50">
+        class="md:hidden fixed top-0 left-0 w-full h-screen bg-black bg-opacity-90 flex flex-col items-center justify-center space-y-4 text-lg font-semibold hidden z-50 transition-all duration-300">
         <button id="closeMenu" class="absolute top-4 right-4 text-2xl sm:text-3xl text-cyan-400"><i
                 class="fas fa-times"></i></button>
         <a href="#home" class="hover:text-cyan-400" onclick="toggleMenu()">Home</a>
@@ -181,9 +309,9 @@
                     class="fab fa-instagram text-xl"></i></a>
         </div>
     </div>
-
+    
     <section id="home"
-        class="flex flex-col-reverse md:flex-row items-center justify-center md:justify-between px-4 sm:px-6 pt-24 pb-12 sm:pt-44 sm:pb-20 min-h-screen text-center md:text-left relative">
+        class="flex flex-col-reverse md:flex-row items-center justify-center md:justify-between container-fluid pt-24 pb-12 sm:pt-44 sm:pb-20 min-h-screen text-center md:text-left relative main-gradient-bg">
         <div
             class="absolute top-1/2 right-4 -translate-y-1/2 flex flex-col space-y-4 z-40 hidden md:flex social-icons-desktop">
             <a href="https://wa.me/252617655538" target="_blank"
@@ -217,7 +345,7 @@
         </div>
 
         <div class="mt-8 md:mt-0 flex justify-center w-full md:w-auto" data-aos="fade-left">
-            <img src="Images/DSC02751 copy.png" alt="Photo of Galad Maxan" loading="lazy"
+            <img src="Images/DSC02751 copy.png" alt="Photo of Galad Abdi" loading="lazy"
                 class="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 object-cover rounded-full border-l-4 border-cyan-400 shadow-2xl transition-transform duration-500 hover:scale-105" />
         </div>
     </section>
@@ -241,7 +369,7 @@
     </section>
 
     <section id="about"
-        class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-800 flex flex-col md:flex-row items-center gap-8 sm:gap-10 text-center md:text-left"
+        class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-900 flex flex-col md:flex-row items-center gap-8 sm:gap-10 text-center md:text-left"
         data-aos="fade-up">
         <div class="md:w-1/2">
             <h3 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">About Me</h3>
@@ -256,53 +384,53 @@
                 class="w-full max-w-sm rounded-xl shadow-2xl transition-transform duration-500 hover:scale-105" />
         </div>
     </section>
-
-    <section id="skills" class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-900 text-center">
+    
+    <section id="skills" class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-800 text-center">
         <h3 class="text-2xl sm:text-3xl font-bold mb-10 sm:mb-12">My Skills</h3>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-6 max-w-6xl mx-auto">
-            <div class="p-6 bg-gray-800 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            <div class="p-6 bg-gray-700 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                 data-aos="zoom-in">
                 <i class="fas fa-pen-nib text-cyan-400 text-3xl sm:text-4xl mb-4"></i>
                 <h4 class="text-lg sm:text-xl font-bold">Graphic Design</h4>
                 <p class="text-gray-400 text-sm">Visual communication, branding, and layout design.</p>
             </div>
-            <div class="p-6 bg-gray-800 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            <div class="p-6 bg-gray-700 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                 data-aos="zoom-in" data-aos-delay="100">
                 <i class="fas fa-bullhorn text-cyan-400 text-3xl sm:text-4xl mb-4"></i>
                 <h4 class="text-lg sm:text-xl font-bold">Digital Marketing</h4>
                 <p class="text-gray-400 text-sm">SEO, social media strategy, content creation.</p>
             </div>
-            <div class="p-6 bg-gray-800 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            <div class="p-6 bg-gray-700 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                 data-aos="zoom-in" data-aos-delay="200">
                 <i class="fas fa-video text-cyan-400 text-3xl sm:text-4xl mb-4"></i>
                 <h4 class="text-lg sm:text-xl font-bold">Video Editing</h4>
                 <p class="text-gray-400 text-sm">Post-production, motion graphics, and visual effects.</p>
             </div>
-            <div class="p-6 bg-gray-800 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            <div class="p-6 bg-gray-700 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                 data-aos="zoom-in" data-aos-delay="300">
                 <i class="fas fa-cogs text-cyan-400 text-3xl sm:text-4xl mb-4"></i>
                 <h4 class="text-lg sm:text-xl font-bold">Engineering</h4>
                 <p class="text-gray-400 text-sm">Problem-solving and technical expertise.</p>
             </div>
-            <div class="p-6 bg-gray-800 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            <div class="p-6 bg-gray-700 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                 data-aos="zoom-in" data-aos-delay="400">
                 <i class="fas fa-lightbulb text-cyan-400 text-3xl sm:text-4xl mb-4"></i>
                 <h4 class="text-lg sm:text-xl font-bold">Critical Thinking</h4>
                 <p class="text-gray-400 text-sm">Analytical and strategic problem-solving skills.</p>
             </div>
-            <div class="p-6 bg-gray-800 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            <div class="p-6 bg-gray-700 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                 data-aos="zoom-in" data-aos-delay="500">
                 <i class="fas fa-laptop-code text-cyan-400 text-3xl sm:text-4xl mb-4"></i>
                 <h4 class="text-lg sm:text-xl font-bold">Web Development</h4>
                 <p class="text-gray-400 text-sm">HTML, CSS, and JavaScript skills for dynamic websites.</p>
             </div>
-            <div class="p-6 bg-gray-800 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            <div class="p-6 bg-gray-700 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                 data-aos="zoom-in" data-aos-delay="600">
                 <i class="fas fa-paint-brush text-cyan-400 text-3xl sm:text-4xl mb-4"></i>
                 <h4 class="text-lg sm:text-xl font-bold">UI/UX Design</h4>
                 <p class="text-gray-400 text-sm">Creating intuitive and visually appealing interfaces.</p>
             </div>
-            <div class="p-6 bg-gray-800 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            <div class="p-6 bg-gray-700 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                 data-aos="zoom-in" data-aos-delay="700">
                 <i class="fas fa-pencil-alt text-cyan-400 text-3xl sm:text-4xl mb-4"></i>
                 <h4 class="text-lg sm:text-xl font-bold">Poetry</h4>
@@ -311,35 +439,39 @@
         </div>
     </section>
 
-    <section id="portfolio" class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-800 text-center">
-        <h3 class="text-2xl sm:text-3xl font-bold mb-10 sm:mb-12">Portfolio</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div id="graphic-design-project"
-                class="bg-gray-700 rounded-xl shadow-lg overflow-hidden group cursor-pointer" data-aos="fade-up">
+    <section id="portfolio" class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-900 text-center">
+        <h3 class="text-2xl sm:text-3xl font-bold mb-8">My Portfolio</h3>
+        <div class="flex flex-wrap justify-center gap-4 mb-10" data-aos="fade-up">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="graphic-design">Graphic Design</button>
+            <button class="filter-btn" data-filter="video-editing">Video Editing</button>
+            <button class="filter-btn" data-filter="photography">Photography</button>
+        </div>
+
+        <div id="portfolio-container" class="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto relative min-h-[50vh]">
+            <div class="portfolio-item graphic-design" data-aos="fade-up" data-category="graphic-design">
                 <img src="Images/Dr Hashi-03.jpg" alt="Graphic Design Project Thumbnail" loading="lazy"
-                    class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500" />
-                <div class="p-6">
-                    <h4 class="text-xl font-bold mb-2">Graphic Design</h4>
-                    <p class="text-gray-300">A collection of branding and visual communication projects.</p>
-                </div>
+                    class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
             </div>
-            <div class="bg-gray-700 rounded-xl shadow-lg overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
+            <div class="portfolio-item photography" data-aos="fade-up" data-aos-delay="100" data-category="photography">
                 <img src="Images/download.jfif" alt="Photography Project" loading="lazy"
-                    class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500" />
-                <div class="p-6">
-                    <h4 class="text-xl font-bold mb-2">Photography</h4>
-                    <p class="text-gray-300">A collection of my best photographic works, capturing moments and emotions.
-                    </p>
-                </div>
+                    class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
             </div>
-            <div class="bg-gray-700 rounded-xl shadow-lg overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
+            <div class="portfolio-item video-editing" data-aos="fade-up" data-aos-delay="200" data-category="video-editing">
                 <img src="Images/editing.png.jfif" alt="Video Editing Project" loading="lazy"
-                    class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500" />
-                <div class="p-6">
-                    <h4 class="text-xl font-bold mb-2">Video Editing</h4>
-                    <p class="text-gray-300">Examples of my video editing skills for promotional and social content.
-                    </p>
-                </div>
+                    class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
+            </div>
+            <div class="portfolio-item graphic-design" data-aos="fade-up" data-category="graphic-design">
+                <img src="Images/salm-222.jpg" alt="Graphic Design Project 2" loading="lazy"
+                    class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
+            </div>
+            <div class="portfolio-item graphic-design" data-aos="fade-up" data-category="graphic-design">
+                <img src="Images/Rumaan poster 2025-09.jpg" alt="Graphic Design Project 3" loading="lazy"
+                    class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
+            </div>
+            <div class="portfolio-item video-editing" data-aos="fade-up" data-category="video-editing">
+                <img src="Images/caruurta1.gif" alt="Video Editing Project 2" loading="lazy"
+                    class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
             </div>
         </div>
     </section>
@@ -352,8 +484,8 @@
             <button id="nextBtn" class="modal-nav-btn absolute right-4"><i class="fas fa-chevron-right"></i></button>
         </div>
     </div>
-
-    <section id="contact" class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-900 text-white">
+    
+    <section id="contact" class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-800 text-white">
         <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
             <div class="w-full lg:w-1/2" data-aos="fade-right">
                 <h3 class="text-3xl font-bold mb-8">Contact Me</h3>
@@ -361,17 +493,17 @@
                     <div>
                         <label for="name" class="sr-only">Your Name</label>
                         <input type="text" id="name" name="name" placeholder="Your Name"
-                            class="w-full p-4 rounded-lg bg-gray-800 border-2 border-gray-700 focus:outline-none focus:border-cyan-400 transition-colors duration-300 placeholder-gray-400 text-white" />
+                            class="w-full p-4 rounded-lg bg-gray-700 border-2 border-gray-600 focus:outline-none focus:border-cyan-400 transition-colors duration-300 placeholder-gray-400 text-white" />
                     </div>
                     <div>
                         <label for="email" class="sr-only">Your Email</label>
                         <input type="email" id="email" name="email" placeholder="Your Email"
-                            class="w-full p-4 rounded-lg bg-gray-800 border-2 border-gray-700 focus:outline-none focus:border-cyan-400 transition-colors duration-300 placeholder-gray-400 text-white" />
+                            class="w-full p-4 rounded-lg bg-gray-700 border-2 border-gray-600 focus:outline-none focus:border-cyan-400 transition-colors duration-300 placeholder-gray-400 text-white" />
                     </div>
                     <div>
                         <label for="message" class="sr-only">Your Message</label>
                         <textarea id="message" name="message" rows="6" placeholder="Your Message"
-                            class="w-full p-4 rounded-lg bg-gray-800 border-2 border-gray-700 focus:outline-none focus:border-cyan-400 transition-colors duration-300 placeholder-gray-400 text-white"></textarea>
+                            class="w-full p-4 rounded-lg bg-gray-700 border-2 border-gray-600 focus:outline-none focus:border-cyan-400 transition-colors duration-300 placeholder-gray-400 text-white"></textarea>
                     </div>
                     <div class="text-center lg:text-left">
                         <button type="submit"
@@ -383,31 +515,27 @@
             </div>
 
             <div class="w-full lg:w-1/2 flex justify-center lg:justify-end" data-aos="fade-left" data-aos-delay="200">
-                <div
-                    class="bg-gray-800 p-6 sm:p-10 rounded-3xl shadow-2xl relative overflow-hidden transform transition-all duration-500 hover:scale-105">
-                    <div
-                        class="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 opacity-20 filter blur-3xl rounded-3xl">
-                    </div>
+                <div class="contact-card p-6 sm:p-10 rounded-3xl relative overflow-hidden transform transition-all duration-500 hover:scale-105">
                     <div class="relative z-10 flex flex-col items-center">
-                        <img src="Images/DSC02756 copy.png" alt="Galad Abdi" loading="lazy"
-                            class="w-64 h-64 sm:w-80 sm:h-80 object-cover rounded-full border-4 border-cyan-400 mb-6" />
+                        <div class="w-48 h-48 sm:w-64 sm:h-64 mb-6 rounded-full overflow-hidden border-4 border-cyan-400 shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                                alt="Professional backdrop" loading="lazy"
+                                class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"/>
+                        </div>
                         <h4 class="text-2xl font-bold mb-2">Galad Abdi</h4>
                         <p class="text-gray-400 mb-6 text-center">Freelance Designer & Developer</p>
-                        <div class="flex flex-col space-y-4 text-left">
+                        <div class="flex flex-col space-y-4 text-left w-full max-w-sm">
                             <div class="flex items-center space-x-4">
                                 <i class="fas fa-envelope text-cyan-400 text-xl"></i>
-                                <a href="mailto:galadabdi5@gmail.com"
-                                    class="text-gray-300 hover:text-cyan-400 transition">galadabdi5@gmail.com</a>
+                                <a href="mailto:galadabdi5@gmail.com" class="text-gray-300 hover:text-cyan-400 transition">galadabdi5@gmail.com</a>
                             </div>
                             <div class="flex items-center space-x-4">
                                 <i class="fas fa-phone text-cyan-400 text-xl"></i>
-                                <a href="tel:+252617655538"
-                                    class="text-gray-300 hover:text-cyan-400 transition">+252617655538</a>
+                                <a href="tel:+252617655538" class="text-gray-300 hover:text-cyan-400 transition">+252617655538</a>
                             </div>
                             <div class="flex items-center space-x-4">
                                 <i class="fab fa-whatsapp text-cyan-400 text-xl"></i>
-                                <a href="https://wa.me/252617655538" target="_blank"
-                                    class="text-gray-300 hover:text-cyan-400 transition">+252617655538</a>
+                                <a href="https://wa.me/252617655538" target="_blank" class="text-gray-300 hover:text-cyan-400 transition">+252617655538</a>
                             </div>
                         </div>
                     </div>
@@ -421,7 +549,11 @@
     </footer>
 
     <script>
-        AOS.init();
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+        });
 
         // Mobile Menu Toggle
         const menuToggle = document.getElementById('menuToggle');
@@ -435,16 +567,91 @@
         menuToggle.addEventListener('click', toggleMenu);
         closeMenu.addEventListener('click', toggleMenu);
 
-        // Graphic Design Modal Gallery
-        const graphicDesignProject = document.getElementById('graphic-design-project');
+        // Active Nav Link Highlighting
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - sectionHeight / 3) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.href.includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Portfolio Filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        const portfolioContainer = document.getElementById('portfolio-container');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Deactivate all buttons
+                filterButtons.forEach(b => b.classList.remove('active'));
+                // Activate clicked button
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+                
+                // Animate removal and addition of items
+                portfolioItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+
+                // Recalculate grid height after filtering
+                setTimeout(() => {
+                    const visibleItems = document.querySelectorAll('.portfolio-item:not(.hidden)');
+                    const itemHeight = visibleItems[0] ? visibleItems[0].offsetHeight : 0;
+                    if (visibleItems.length > 0) {
+                        // Calculate new height based on the number of items and columns
+                        const columns = window.innerWidth >= 1024 ? 3 : 2;
+                        const rows = Math.ceil(visibleItems.length / columns);
+                        portfolioContainer.style.minHeight = `${rows * (itemHeight + 24)}px`; // 24px is the gap
+                    } else {
+                        portfolioContainer.style.minHeight = '0px';
+                    }
+                }, 500);
+            });
+        });
+
+        // Image Modal Gallery
         const modal = document.getElementById('graphicDesignModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
         const modalImage = document.getElementById('modalImage');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-
-        const galleryImages = [
+        const allGalleryImages = [
             'Images/Dr Hashi-03.jpg',
+            'Images/download.jfif',
             'Images/editing.png.jfif',
             'Images/Dr Hashi-02.jpg',
             'Images/Dr Hashi-05.jpg',
@@ -456,15 +663,18 @@
         let currentImageIndex = 0;
 
         function showImage(index) {
-            modalImage.src = galleryImages[index];
-            modalImage.alt = `Graphic Design Image ${index + 1}`;
+            modalImage.src = allGalleryImages[index];
+            modalImage.alt = `Gallery Image ${index + 1}`;
         }
 
-        graphicDesignProject.addEventListener('click', () => {
-            currentImageIndex = 0;
-            showImage(currentImageIndex);
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevents scrolling on the main page
+        portfolioItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                const clickedImageSrc = item.querySelector('img').src;
+                currentImageIndex = allGalleryImages.indexOf(clickedImageSrc.split('/').pop());
+                showImage(currentImageIndex);
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
         });
 
         closeModalBtn.addEventListener('click', () => {
@@ -472,7 +682,6 @@
             document.body.style.overflow = 'auto';
         });
 
-        // Close modal when clicking outside the image
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
@@ -481,14 +690,14 @@
         });
 
         prevBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents click from bubbling to the modal overlay
-            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            e.stopPropagation();
+            currentImageIndex = (currentImageIndex - 1 + allGalleryImages.length) % allGalleryImages.length;
             showImage(currentImageIndex);
         });
 
         nextBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents click from bubbling to the modal overlay
-            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            e.stopPropagation();
+            currentImageIndex = (currentImageIndex + 1) % allGalleryImages.length;
             showImage(currentImageIndex);
         });
     </script>
