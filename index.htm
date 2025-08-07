@@ -74,14 +74,16 @@
             0% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(-10px);
             }
+
             100% {
                 transform: translateY(0);
             }
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -97,36 +99,21 @@
 
         .modal-content {
             margin: auto;
-            display: block;
-            width: 90%;
-            max-width: 900px;
-            animation: zoomIn 0.6s;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 90%;
+            max-width: 900px;
+            height: 100%;
+            position: relative;
+            animation: zoomIn 0.6s;
         }
-        
+
         .modal-image {
             width: 100%;
             max-height: 80vh;
             object-fit: contain;
             display: block;
-        }
-
-        .modal-nav {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 10px;
         }
 
         .modal-nav-btn {
@@ -138,6 +125,15 @@
             border: none;
             padding: 10px;
             border-radius: 50%;
+            position: absolute;
+        }
+
+        #prevBtn {
+            left: 10px;
+        }
+
+        #nextBtn {
+            right: 10px;
         }
 
         .modal-nav-btn:hover {
@@ -146,7 +142,7 @@
         }
 
         .close-btn {
-            position: absolute;
+            position: fixed;
             top: 15px;
             right: 35px;
             color: #f1f1f1;
@@ -161,6 +157,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -168,11 +165,12 @@
 
         @keyframes zoomIn {
             from {
-                transform: scale(0.8) translate(-50%, -50%);
+                transform: scale(0.8);
                 opacity: 0;
             }
+
             to {
-                transform: scale(1) translate(-50%, -50%);
+                transform: scale(1);
                 opacity: 1;
             }
         }
@@ -182,13 +180,16 @@
                 transform: scale(0.3);
                 opacity: 0;
             }
+
             50% {
                 transform: scale(1.05);
                 opacity: 1;
             }
+
             70% {
                 transform: scale(0.9);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -205,7 +206,8 @@
             transition: all 0.3s ease;
         }
 
-        .filter-btn.active, .filter-btn:hover {
+        .filter-btn.active,
+        .filter-btn:hover {
             background-color: var(--primary-color);
             color: var(--bg-dark);
             transform: translateY(-2px);
@@ -216,49 +218,65 @@
         }
 
         .portfolio-item.hidden {
-            opacity: 0;
-            transform: scale(0.8);
-            position: absolute;
-            width: 100%;
+            display: none;
         }
 
         /* Contact section specific design */
         .contact-card {
             background: linear-gradient(135deg, #111827, #1f2937);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
         }
 
         /* Ensure no horizontal scroll on small screens like Samsung A12 */
-        .no-overflow-x {
+        body {
             overflow-x: hidden;
-            width: 100%;
         }
-        .container-fluid {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-        @media (min-width: 640px) {
-            .container-fluid {
-                padding-left: 2rem;
-                padding-right: 2rem;
-            }
-        }
-        
+
         .main-gradient-bg {
             background-image: linear-gradient(to right, #0f172a, #111827, #0f172a);
+        }
+
+        .about-image {
+            position: relative;
+            padding: 5px;
+            /* Space for the border */
+            border-radius: 12px;
+            /* Match the image border-radius */
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+            background: radial-gradient(circle, #00A6FB 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(10px);
+            transition: opacity 0.5s ease, filter 0.5s ease;
+        }
+
+        .about-image:hover::before {
+            opacity: 0.8;
+            filter: blur(15px);
         }
     </style>
 </head>
 
-<body class="no-overflow-x">
+<body class="overflow-x-hidden">
 
     <div id="scrollToTop" class="scroll-to-top hidden">
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <nav class="flex items-center justify-between px-4 sm:px-6 py-3 bg-black bg-opacity-60 fixed w-full z-50 shadow-lg">
+    <nav
+        class="flex items-center justify-between px-4 sm:px-6 py-3 bg-black bg-opacity-60 fixed w-full z-50 shadow-lg">
         <div class="flex items-center space-x-2 sm:space-x-4">
             <img src="Images/Gemini_Generated_Image_6gox4m6gox4m6gox (1).png" alt="Galad Logo"
                 class="h-12 sm:h-16 w-auto object-contain" />
@@ -309,9 +327,9 @@
                     class="fab fa-instagram text-xl"></i></a>
         </div>
     </div>
-    
+
     <section id="home"
-        class="flex flex-col-reverse md:flex-row items-center justify-center md:justify-between container-fluid pt-24 pb-12 sm:pt-44 sm:pb-20 min-h-screen text-center md:text-left relative main-gradient-bg">
+        class="flex flex-col-reverse md:flex-row items-center justify-center md:justify-between px-4 sm:px-10 pt-24 pb-12 sm:pt-44 sm:pb-20 min-h-screen text-center md:text-left relative main-gradient-bg">
         <div
             class="absolute top-1/2 right-4 -translate-y-1/2 flex flex-col space-y-4 z-40 hidden md:flex social-icons-desktop">
             <a href="https://wa.me/252617655538" target="_blank"
@@ -326,7 +344,8 @@
         </div>
 
         <div class="max-w-xl" data-aos="fade-right">
-            <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4 text-cyan-400 transition-all duration-500">
+            <h2
+                class="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4 text-cyan-400 transition-all duration-500">
                 I'm <span class="text-white">Galad Abdi</span>
             </h2>
             <p class="text-base sm:text-lg md:text-xl text-gray-300 mb-4 sm:mb-6 leading-relaxed">
@@ -358,12 +377,20 @@
                     class="h-16 w-auto object-contain mx-auto opacity-70 hover:opacity-100 transition-opacity">
             </div>
             <div class="p-4 bg-gray-700 rounded-lg shadow-lg transition duration-300 hover:scale-105">
-                <img src="Images/logo-web-5.png" alt="Company Logo 2" loading="lazy"
+                <img src="Images/download.png" alt="Company Logo 2" loading="lazy"
                     class="h-16 w-auto object-contain mx-auto opacity-70 hover:opacity-100 transition-opacity">
             </div>
             <div class="p-4 bg-gray-700 rounded-lg shadow-lg transition duration-300 hover:scale-105">
-                <img src="Images/Daaruhi.png" alt="Company Logo 3" loading="lazy"
-                    class="h-16 w-auto object-contain mx-auto opacity-70 hover:opacity-100 transition-opacity">
+                <img src="Images/Ramadaan.png" alt="Company Logo 3" loading="lazy"
+                    class="h-16 w-auto bg-white object-contain mx-auto opacity-70 hover:opacity-100 transition-opacity">
+            </div>
+            <div class="p-4 bg-gray-700 rounded-lg shadow-lg transition duration-300 hover:scale-105">
+                <img src="Images/naruuro.jfif" alt="Company Logo 3" loading="lazy"
+                    class="h-16 w-auto bg-white object-contain mx-auto opacity-70 hover:opacity-100 transition-opacity">
+            </div>
+            <div class="p-4 bg-gray-700 rounded-lg shadow-lg transition duration-300 hover:scale-105">
+                <img src="Images/dfdsfds.png" alt="Company Logo 3" loading="lazy"
+                    class="h-16 w-auto bg-white object-contain mx-auto opacity-70 hover:opacity-100 transition-opacity">
             </div>
         </div>
     </section>
@@ -380,11 +407,13 @@
             </p>
         </div>
         <div class="md:w-1/2 flex justify-center mt-8 md:mt-0" data-aos="fade-left">
-            <img src="Images/Gemini_Generated_Image_2mnayz2mnayz2mna.png" alt="About Me" loading="lazy"
-                class="w-full max-w-sm rounded-xl shadow-2xl transition-transform duration-500 hover:scale-105" />
+            <div class="about-image">
+                <img src="Images/DSC02756 copy.png" alt="About Me" loading="lazy"
+                    class="w-full max-w-sm rounded-xl shadow-2xl transition-transform duration-500 hover:scale-105" />
+            </div>
         </div>
     </section>
-    
+
     <section id="skills" class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-800 text-center">
         <h3 class="text-2xl sm:text-3xl font-bold mb-10 sm:mb-12">My Skills</h3>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-6 max-w-6xl mx-auto">
@@ -461,30 +490,19 @@
                 <img src="Images/editing.png.jfif" alt="Video Editing Project" loading="lazy"
                     class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
             </div>
-            <div class="portfolio-item graphic-design" data-aos="fade-up" data-category="graphic-design">
-                <img src="Images/salm-222.jpg" alt="Graphic Design Project 2" loading="lazy"
-                    class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
-            </div>
-            <div class="portfolio-item graphic-design" data-aos="fade-up" data-category="graphic-design">
-                <img src="Images/Rumaan poster 2025-09.jpg" alt="Graphic Design Project 3" loading="lazy"
-                    class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
-            </div>
-            <div class="portfolio-item video-editing" data-aos="fade-up" data-category="video-editing">
-                <img src="Images/caruurta1.gif" alt="Video Editing Project 2" loading="lazy"
-                    class="w-full h-36 sm:h-48 md:h-64 object-cover rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 cursor-pointer" />
-            </div>
+           
         </div>
     </section>
 
     <div id="graphicDesignModal" class="modal">
         <span id="closeModalBtn" class="close-btn">×</span>
         <div class="modal-content">
-            <button id="prevBtn" class="modal-nav-btn absolute left-4"><i class="fas fa-chevron-left"></i></button>
+            <button id="prevBtn" class="modal-nav-btn"><i class="fas fa-chevron-left"></i></button>
             <img id="modalImage" class="modal-image" src="" alt="">
-            <button id="nextBtn" class="modal-nav-btn absolute right-4"><i class="fas fa-chevron-right"></i></button>
+            <button id="nextBtn" class="modal-nav-btn"><i class="fas fa-chevron-right"></i></button>
         </div>
     </div>
-    
+
     <section id="contact" class="px-4 sm:px-10 py-16 sm:py-20 bg-gray-800 text-white">
         <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
             <div class="w-full lg:w-1/2" data-aos="fade-right">
@@ -515,27 +533,32 @@
             </div>
 
             <div class="w-full lg:w-1/2 flex justify-center lg:justify-end" data-aos="fade-left" data-aos-delay="200">
-                <div class="contact-card p-6 sm:p-10 rounded-3xl relative overflow-hidden transform transition-all duration-500 hover:scale-105">
+                <div
+                    class="contact-card p-6 sm:p-10 rounded-3xl relative overflow-hidden transform transition-all duration-500 hover:scale-105">
                     <div class="relative z-10 flex flex-col items-center">
-                        <div class="w-48 h-48 sm:w-64 sm:h-64 mb-6 rounded-full overflow-hidden border-4 border-cyan-400 shadow-xl">
-                            <img src="Images/DSC02751 copy.png" 
+                        <div
+                            class="w-48 h-48 sm:w-64 sm:h-64 mb-6 rounded-full overflow-hidden border-4 border-cyan-400 shadow-xl">
+                            <img src="Images/DSC02751 copy.png"
                                 alt="Professional backdrop" loading="lazy"
-                                class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"/>
+                                class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
                         </div>
                         <h4 class="text-2xl font-bold mb-2">Galad Abdi</h4>
                         <p class="text-gray-400 mb-6 text-center">Freelance Designer & Developer</p>
                         <div class="flex flex-col space-y-4 text-left w-full max-w-sm">
                             <div class="flex items-center space-x-4">
                                 <i class="fas fa-envelope text-cyan-400 text-xl"></i>
-                                <a href="mailto:galadabdi5@gmail.com" class="text-gray-300 hover:text-cyan-400 transition">galadabdi5@gmail.com</a>
+                                <a href="mailto:galadabdi5@gmail.com"
+                                    class="text-gray-300 hover:text-cyan-400 transition">galadabdi5@gmail.com</a>
                             </div>
                             <div class="flex items-center space-x-4">
                                 <i class="fas fa-phone text-cyan-400 text-xl"></i>
-                                <a href="tel:+252617655538" class="text-gray-300 hover:text-cyan-400 transition">+252617655538</a>
+                                <a href="tel:+252617655538"
+                                    class="text-gray-300 hover:text-cyan-400 transition">+252617655538</a>
                             </div>
                             <div class="flex items-center space-x-4">
                                 <i class="fab fa-whatsapp text-cyan-400 text-xl"></i>
-                                <a href="https://wa.me/252617655538" target="_blank" class="text-gray-300 hover:text-cyan-400 transition">+252617655538</a>
+                                <a href="https://wa.me/252617655538" target="_blank"
+                                    class="text-gray-300 hover:text-cyan-400 transition">+252617655538</a>
                             </div>
                         </div>
                     </div>
@@ -617,89 +640,87 @@
                 btn.classList.add('active');
 
                 const filter = btn.getAttribute('data-filter');
-                
-                // Animate removal and addition of items
+
                 portfolioItems.forEach(item => {
-                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                    const category = item.getAttribute('data-category');
+                    if (filter === 'all' || category === filter) {
                         item.classList.remove('hidden');
                     } else {
                         item.classList.add('hidden');
                     }
                 });
-
-                // Recalculate grid height after filtering
-                setTimeout(() => {
-                    const visibleItems = document.querySelectorAll('.portfolio-item:not(.hidden)');
-                    const itemHeight = visibleItems[0] ? visibleItems[0].offsetHeight : 0;
-                    if (visibleItems.length > 0) {
-                        // Calculate new height based on the number of items and columns
-                        const columns = window.innerWidth >= 1024 ? 3 : 2;
-                        const rows = Math.ceil(visibleItems.length / columns);
-                        portfolioContainer.style.minHeight = `${rows * (itemHeight + 24)}px`; // 24px is the gap
-                    } else {
-                        portfolioContainer.style.minHeight = '0px';
-                    }
-                }, 500);
             });
         });
 
-        // Image Modal Gallery
-        const modal = document.getElementById('graphicDesignModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
+        // Modal Gallery for Graphic Design
+        const graphicDesignModal = document.getElementById('graphicDesignModal');
         const modalImage = document.getElementById('modalImage');
+        const closeModalBtn = document.getElementById('closeModalBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        const allGalleryImages = [
+
+        const graphicDesignImages = [
             'Images/Dr Hashi-03.jpg',
-            'Images/download.jfif',
-            'Images/editing.png.jfif',
+            'Images/salm-222.jpg',
+            'Images/Rumaan poster 2025-09.jpg',
+            'Images/caruurta1.gif',
+            'Images/facebook-30k.jpg',
+            'Images/Rumaan poster 2025-02.jpg',
+            'Images/Dr Hashi-09.jpg',
+            'Images/Dr Hashi-07.jpg',
+            'Images/Rumaan poster 2025-05.jpg',
+            'Images/salm-23.jpg',
+            'Images/Dr Hashi-08.jpg',
             'Images/Dr Hashi-02.jpg',
             'Images/Dr Hashi-05.jpg',
+            'Images/Dr Hashi-04.jpg',
+            'Images/Untitled-1.gif',
+            'Images/salm2.jpg',
             'Images/caruurta2.gif',
-            'Images/caruurta1.gif',
-            'Images/salm-222.jpg',
-            'Images/Rumaan poster 2025-09.jpg'
+            'Images/naruuro-01.jpg',
+            'Images/Rumaan poster 2025-08.jpg',
+            'Images/naruuro-02.jpg'
         ];
         let currentImageIndex = 0;
 
-        function showImage(index) {
-            modalImage.src = allGalleryImages[index];
-            modalImage.alt = `Gallery Image ${index + 1}`;
-        }
-
-        portfolioItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                const clickedImageSrc = item.querySelector('img').src;
-                currentImageIndex = allGalleryImages.indexOf(clickedImageSrc.split('/').pop());
-                showImage(currentImageIndex);
-                modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
+        document.querySelectorAll('.portfolio-item.graphic-design img').forEach((img, index) => {
+            img.addEventListener('click', () => {
+                currentImageIndex = graphicDesignImages.indexOf(img.getAttribute('src'));
+                if (currentImageIndex === -1) {
+                    currentImageIndex = 0;
+                }
+                openModal(graphicDesignImages[currentImageIndex]);
             });
         });
 
+        function openModal(imageSrc) {
+            graphicDesignModal.style.display = 'block';
+            modalImage.src = imageSrc;
+        }
+
         closeModalBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            graphicDesignModal.style.display = 'none';
         });
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+        window.onclick = function (event) {
+            if (event.target == graphicDesignModal) {
+                graphicDesignModal.style.display = "none";
             }
-        });
+        };
 
-        prevBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentImageIndex = (currentImageIndex - 1 + allGalleryImages.length) % allGalleryImages.length;
-            showImage(currentImageIndex);
-        });
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % graphicDesignImages.length;
+            modalImage.src = graphicDesignImages[currentImageIndex];
+        }
 
-        nextBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentImageIndex = (currentImageIndex + 1) % allGalleryImages.length;
-            showImage(currentImageIndex);
-        });
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + graphicDesignImages.length) % graphicDesignImages.length;
+            modalImage.src = graphicDesignImages[currentImageIndex];
+        }
+
+        nextBtn.addEventListener('click', showNextImage);
+        prevBtn.addEventListener('click', showPrevImage);
+
     </script>
 </body>
 
